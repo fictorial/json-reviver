@@ -1,3 +1,5 @@
+#!/usr/bin/env nodeunit
+
 {serialize,deserialize} = require 'blessed-serialization'
 
 values = [ 
@@ -22,6 +24,11 @@ exports.test_primitives = (test) ->
   for v in values
     test.deepEqual (deserialize (serialize v), {Foo,Bar}), v
   test.done()
+
+# you have to tell 'deserialize' where the definitions of
+# your objects can be found so that the prototype of a decoded
+# object can be set. you can pass 'exports', a specific set
+# of objects, or leave it blank and it'll search GLOBAL.
 
 exports.test_custom_objects = (test) ->
   x = deserialize (serialize new Foo), {Foo}
